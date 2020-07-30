@@ -1,0 +1,304 @@
+#----------------------------------------------------------------------
+Assignment 04
+
+#----------------------------------------------------------------------
+Purpose:
+
+  * Demonstrate ability to backface cull triangles using the
+    method discussed in class.
+
+  * Demonstrate ability to write some additional (simple) C code.
+
+#----------------------------------------------------------------------
+Background:
+
+  * Use the backface culling techinique developed and discussed in
+    class.
+
+  * The goal for this homework is to read a model and a view file
+    and then generate the properly projected and clipped lines for
+    that model -- but only for those faces that are visible from
+    the camera position.  The lines are then printed (along with
+    the canvas size) to create a viewable ".sdf" file.
+
+  * The Model and View files are as described in previous
+    homeworks.
+
+#----------------------------------------------------------------------
+Tasks:
+
+  1. Download hmwk_04_dalioba.zip from Canvas.
+
+  2. Unzip the file somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to your NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'hmwk_04_abc1234' but with _your_ NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.
+
+  5. Change the header lines in the .c files.
+
+      -- Line 1:  Family name first, then a comma, then
+                  personal name.
+
+      -- Line 2:  Your NetID.
+
+      -- Line 3:  The date you edited the file, in the format
+                  YYYY-MM-DD.  (Four digits, a '-' character, two
+                  digits, a '-' character, two digits.)
+
+     These three lines must remain the first three lines in the
+     files.  Do NOT change anything in the header (.h) files.
+
+  6. There are a number of TODO: comments in the .c files that
+     need to be replaced with the appropriate C code.  (Do NOT
+     change anything in any .c file except to update the headers
+     and to replace a TODO comment with your code.)
+
+     Here's a list:
+
+hmwk_04.c:42:     // TODO: Allocate enough space for the number of vertices the ...
+hmwk_04.c:49:     // TODO: Project the vertices of the model into the space you ...
+hmwk_04.c:59:     // TODO: Print four 'l' lines, corresponding to the ...
+hmwk_04.c:70:     // TODO: Construct a Vertex holding the worldspace position of ...
+hmwk_04.c:88:     // TODO: For each face of the model, draw the triangle ...
+hmwk_04.c:97:     // TODO: Free all allocated structures. ...
+hmwk_04.c:101:    // TODO: Return from main indicating no error. ...
+
+projection.c:93:  // TODO: Use projectVertex() to project each of the ...
+
+triangle.c:13:    // TODO: Using a Line structure and calling clipLine(), check ...
+
+visible.c:13:     // TODO:  Purpose:  Determine if the triangle represent by ...
+
+  7. When you have done so, compile and run everything as shown.
+
+     Notice that there are two input files being given to hmwk_04,
+     the first is the model file (Tests/pyramid_01.svfm) and the
+     second is the view file (Tests/pyramid_01.view).
+
+     You should observe the given output.
+
+$ gcc -o hmwk_04 hmwk_04.c face.c line.c model.c projection.c triangle.c vertex.c view.c visible.c -lm
+$ ./hmwk_04 Tests/pyramid.svfm Tests/pyramid_setting_01.view
+#- Model parameters --------------------
+# Vertex count :     5
+# Face count   :     6
+
+#- Vertex list -------------------------
+#  [    0]       0.000000,      0.000000,      0.000000
+#  [    1]       0.800000,      0.000000,      0.000000
+#  [    2]       0.000000,      0.800000,      0.000000
+#  [    3]       0.800000,      0.800000,      0.000000
+#  [    4]       0.400000,      0.400000,      0.700000
+
+#- Face list ---------------------------
+#  [    0]      3,     1,     0
+#  [    1]      2,     3,     0
+#  [    2]      1,     4,     0
+#  [    3]      4,     2,     0
+#  [    4]      1,     3,     4
+#  [    5]      2,     4,     3
+#---------------------------------------
+#- View parameters ---------------------
+# Bézier resolution :     0
+# Euler angles      :      0.000000,      0.000000,      0.000000
+# World limits      :     -1.000000,     -1.000000,      1.000000,      1.000000
+# Camera distance   :      0.000000
+# Canvas width      :   500
+# Canvas height     :   400
+# Screen limits     :      0.100000,      0.100000,      0.900000,      0.900000
+# Portal pixels     :   50,  450,   40,  360
+#---------------------------------------
+#- Projection parameters ---------------
+# (fx, fy) : (      1.000000,      1.000000 )
+# (gx, gy) : (     50.000000,     40.000000 )
+# (sx, sy) : (    200.000000,    160.000000 )
+# (ax, ay) : (    250.000000,    200.000000 )
+# Camera distance :      0.000000
+#---------------------------------------
+c  500  400
+l     50       40      450       40
+l    450       40      450      360
+l    450      360       50      360
+l     50      360       50       40
+l    410.0    200.0    330.0    264.0
+l    330.0    264.0    250.0    200.0
+l    250.0    200.0    410.0    200.0
+l    330.0    264.0    250.0    328.0
+l    250.0    328.0    250.0    200.0
+l    250.0    200.0    330.0    264.0
+l    410.0    200.0    410.0    328.0
+l    410.0    328.0    330.0    264.0
+l    330.0    264.0    410.0    200.0
+l    250.0    328.0    330.0    264.0
+l    330.0    264.0    410.0    328.0
+l    410.0    328.0    250.0    328.0
+$
+
+     Your output should match this EXACTLY.  'EXACTLY' means just
+     that.  It should be the same character-by-character.  When
+     your program is tested, it will be run against other data
+     files and the output compared using diff.
+
+  8. There are a number of line files in Tests/ along with a view
+     file for each.  Run all of these tests and compare your
+     results to those given in Results/.  Your output should match
+     EXACTLY.
+
+  9. Use diff (fc on Windows) to compare your output to that of
+     the results file.  They should match with NO DIFFERENCES.
+
+     (Remember that line endings can be different among Linux,
+      MacOS, and (shudder) Windows, so do your comparisons
+      ignoring only the line endings.  The SPACING within the
+      lines however should be identical.)
+
+ 10. Save the output of hmwk_04 in a file with the '.sdf'
+     extension and use the Display tool to view it.  (See the
+     Display tool posting on Canvas for more info.  The SDF files
+     in Results/ are all viewable with the Display tool.)
+
+     Your display should look like the images in Screenshots/.
+
+     Compare these new screenshots with those that were given for
+     Homework 03.  (The '_03' cases are new for this homework so
+     there're no corresponding screenshots in Homework 03 for
+     them.)
+
+     Notice that while the general look is the same, you no longer
+     see those triangles whose back sides were facing the camera.
+
+#----------------------------------------------------------------------
+Submission:
+
+Make a zipfile of your 'hmwk_04_abc1234' directory (with your
+source files in it) and submit it on Canvas as your results
+for this assignment.
+
+You can get dinged points for work not in the proper format so
+even if your program works (and seems to work correctly!), you
+might not earn full credit.  Check your work!
+
+#----------------------------------------------------------------------
+Hints:
+  1. Ensure your program compiles and runs correctly.  Not
+     compiling or not generating the correct output as shown in
+     the results files will cost you points.
+
+     In particular, a program that crashes (e.g., generates a
+     segmentation fault (SIGSEGV)), scores ZERO credit, no matter
+     what output it generates.
+
+     The output from your program will be compared using diff
+     against the reference results so ensure you DO NOT CHANGE
+     anything aside from the indicated TODO spots.  In particular,
+     do not change ANYTHING in the header (.h) files.
+
+     Ensure that your output matches EXACTLY that shown in the
+     corresponding results file.  'EXACTLY' mean just that.  It
+     must be identical character-by-character.  No differences in
+     spacing, values, punctuation, etc.
+
+     (Remember that line endings can be different among Linux,
+      MacOS, and (shudder) Windows, so do your comparisons
+      ignoring only the line endings.  The SPACING within the
+      lines however should be identical.)
+
+  2. Ensure that you update the three header lines in the source
+     .c files that you change with YOUR name (family name first,
+     then a comma, then your personal name), YOUR NetID, and the
+     date you edit the file (in the format YYYY-MM-DD, four
+     digits, a '-' character, two digits, a '-' character, two
+     digits).
+
+     Not updating the header lines properly will cost you points.
+
+     Not having the header lines as the first three lines in the
+     files will cost you points.
+
+  3. This is not a hard assignment.
+
+hmwk_04.c:42:     // TODO: Allocate enough space for the number of vertices the ...
+  6 lines of code.
+
+hmwk_04.c:49:     // TODO: Project the vertices of the model into the space you ...
+  1 line of code.
+
+hmwk_04.c:59:     // TODO: Print four 'l' lines, corresponding to the ...
+  8 lines of code.
+
+hmwk_04.c:70:     // TODO: Construct a Vertex holding the worldspace position of ...
+  2 lines of code.
+
+hmwk_04.c:88:     // TODO: For each face of the model, draw the triangle ...
+  14 lines of code.
+
+hmwk_04.c:97:     // TODO: Free all allocated structures. ...
+  4 lines of code.
+
+hmwk_04.c:101:    // TODO: Return from main indicating no error. ...
+  1 line of code.
+
+projection.c:93:  // TODO: Use projectVertex() to project each of the ...
+  3 lines of code.
+
+triangle.c:13:    // TODO: Using a Line structure and calling clipLine(), check ...
+  25 lines of code.
+
+visible.c:13:     // TODO:  Purpose:  Determine if the triangle represent by ...
+  21 lines of code.
+
+     That's only eighty-five (85) lines of code in total.  No big
+     deal!
+
+     By the way, don't get too concerned if you don't get the same
+     number of lines of code that I state here.  These numbers are
+     just a guide so you can see if you're on the correct track or
+     not.
+
+     It's OK to have a few more or less when you write it.  (I put
+     all closing braces on their own lines and sometimes break
+     long statements into multiple lines, so my code tends to be
+     a tad longer at times.)
+
+     On the other hand, if you find yourself writing a LOT more
+     code than this, you're probably going down the wrong track.
+
+  4. Ensure your submission is packaged EXACTLY as described above.
+
+      -- Your submission should be a ZIP FILE (not a tar, rar, gz,
+         or any other kind of compressed file).
+
+      -- The zip file should be named 'hmwk_04_abc1234.zip' (with
+         'abc1234' replaced with YOUR NetID).
+
+      -- This zip file should have ONE item in it, a directory
+         named 'hmwk_04_abc1234'  (with 'abc1234' replaced with
+         YOUR NetID).
+
+      -- Your source files should be in that directory.  Do NOT
+         change the names of any of the source files.  They
+         should be hmwk_04.c, projection.c, triangle.c, and
+         visible.c.  You do not need to include any other files.
+
+         (They will just be replaced with the reference solution
+          versions anyway.)
+
+     Submissions in the wrong format score ZERO points.
+
+  5. After you submit your zip file on Canvas, download it from
+     Canvas into an empty directory and check that your submission
+     is in the proper format, that the program runs without error
+     or crashing, that it prints the correct output, and that you
+     have updated the header lines correctly in the .c source
+     files.
+
+  6. Are you CERTAIN you complied with all of these nit-picking
+     instructions?  Really?  Maybe you ought to check just one
+     more time. :)
+
+#----------------------------------------------------------------------
