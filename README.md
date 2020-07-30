@@ -1,6 +1,6 @@
 # Computer Graphics Repo
 
-### This is a repo of the following projects, completed and submitted for course CSE 4303 Computer Graphics at The University of Texas at Arlington
+### This is a repo of the following projects, completed and submitted for the course CSE 4303 Computer Graphics at The University of Texas at Arlington
 
 1. Backface Culling
 2. Line Clipping
